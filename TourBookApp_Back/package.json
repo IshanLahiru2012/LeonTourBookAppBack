@@ -2,11 +2,11 @@
   "name": "tourbookapp_back",
   "version": "1.0.0",
   "type": "module",
-  "main": "src/main.ts",
+  "main": "src/index.ts",
   "scripts": {
     "compile": "tsc --watch",
     "build": "npm install && npx tsc",
-    "start": "nodemon --enable-source-maps dist/main.js"
+    "start": "nodemon --enable-source-maps dist/index.js"
   },
   "keywords": [],
   "author": "",
