@@ -24,7 +24,7 @@ const server = app.listen(process.env.PORT || 5050,()=> {
         }
     });
 
-app.get("/",async (req:Request, res:Response)=>{
+app.get("/helth",async (req:Request, res:Response)=>{
     res.json({message:"hello nodeJs"});
 });
 
