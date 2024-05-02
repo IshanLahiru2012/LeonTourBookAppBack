@@ -21,10 +21,10 @@ export const validateTransferRequest =[
     body("transferName").isString().notEmpty().withMessage("transferName required and must be a string"),
     body("city").isString().notEmpty().withMessage("city required and must be a string"),
     body("estimatedArrivalTime").isInt({min:0}).notEmpty().withMessage("estimatedArrivalTime required and must be a positive number"),
-    body("lastUpdated").isDate().notEmpty().withMessage("lastUpdated required and must be a Date"),
-    body("vehicleTypes.*.vehicleCategory").isArray().withMessage("vehicleTypes must be an Array"),
+    body("vehicleTypes").isArray().withMessage("vehicleTypes must be a Array"),
+    body("vehicleTypes.*.vehicleCategory").isString().notEmpty().withMessage("vehicleTypes required and must be a string"),
     body("vehicleTypes.*.pricePerKm").isFloat({min:0}).notEmpty().withMessage("pricePerKm required and must be positive"),
-    body("vehicleTypes.*.NumOfSeats").isInt({min:0}).notEmpty().withMessage("NumOfSeats required and must be positive"),
+    body("vehicleTypes.*.numOfSeats").isInt({min:0}).notEmpty().withMessage("NumOfSeats required and must be positive"),
     body("vehicleTypes.*.manufacYear").isInt({min:0}).notEmpty().withMessage("manufacYear required and must be positive"),
     body("vehicleTypes.*.color").isArray().withMessage("color must be an Array").not().isEmpty().withMessage("color array can't be empty"),
     handleValidationErrors

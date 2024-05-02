@@ -9,14 +9,11 @@ const createTransfer = async (req:Request, resp:Response)=>{
         if(existingTransfer){
             return resp.status(409).json({message:"User transfer already exist"})
         }
-        const isVehicleImage = (file: any,fieldName:string): file is Express.Multer.File => {
+        const isImageFile = (file: Express.Multer.File,fieldName:string) => {
             return typeof file === 'object' && 'fieldname' in file && file.fieldname === fieldName;
         }
 
         const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-
-        const vehicleImage = isVehicleImage(files['vehicleImageUrl'][0], 'vehicleImageUrl') ? files['vehicleImageUrl'][0] : undefined;
-        const transferImage = isVehicleImage(files['transferImageUrl'][0], 'transferImageUrl') ? files['transferImageUrl'][0] : undefined;
 
         const uploadToCloudinary = async (image:Express.Multer.File)=>{
             const base64Image= Buffer.from(image.buffer).toString("base64");
@@ -24,16 +21,25 @@ const createTransfer = async (req:Request, resp:Response)=>{
             const uploadResponse = await cloudinary.v2.uploader.upload(dataURI1);
             return uploadResponse.url;
         }
-
         const transfer = new Transfer(req.body);
+
+        for (let i = 0; i < transfer.vehicleTypes.length ; i++) {
+            const  vehicleImage = isImageFile(files[`vehicleTypes[${i}][vehicleImageUrl]`][0], `vehicleTypes[${i}][vehicleImageUrl]`)
+            if(vehicleImage){
+                transfer.vehicleTypes[i].vehicleImageUrl = await uploadToCloudinary(files[`vehicleTypes[${i}][vehicleImageUrl]`][0]);
+            }else {
+                transfer.vehicleTypes[i].vehicleImageUrl = '';
+            }
+        }
+
+        const transferImage = isImageFile(files['transferImageUrl'][0], 'transferImageUrl') ?
+                                files['transferImageUrl'][0] : undefined;
+
         transfer.user = new mongoose.Types.ObjectId(req.userId);
         transfer.lastUpdated = new Date();
         if(transferImage){
             transfer.transferImageUrl = await uploadToCloudinary(transferImage);
 
-        }
-        if(vehicleImage){
-            transfer.vehicleTypes[0].vehicleImageUrl = await uploadToCloudinary(vehicleImage);
         }
         await transfer.save();
 

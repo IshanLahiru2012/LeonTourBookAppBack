@@ -3,9 +3,9 @@ const vehicleTypeSchema = new mongoose.Schema({
     vehicleCategory: { type: String, required: true },
     pricePerKm: { type: Number, required: true },
     color: [{ type: String, required: true }],
-    NumOfSeats: { type: Number, required: true },
+    numOfSeats: { type: Number, required: true },
     manufacYear: { type: Number, required: true },
-    vehicleImageUrl: { type: String },
+    vehicleImageUrl: { type: String, required: true },
 });
 const transferSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
@@ -13,7 +13,7 @@ const transferSchema = new mongoose.Schema({
     city: { type: String, required: true },
     vehicleTypes: [vehicleTypeSchema],
     estimatedArrivalTime: { type: Number, required: true },
-    transferImageUrl: { type: String },
+    transferImageUrl: { type: String, required: true },
     lastUpdated: { type: Date, required: true }
 });
 const Transfer = mongoose.model("Transfer", transferSchema);

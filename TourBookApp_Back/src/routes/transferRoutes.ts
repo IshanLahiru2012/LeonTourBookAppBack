@@ -14,8 +14,15 @@ const upload = multer({
     dest: 'uploads/'
 });
 
-const mfUpload = upload.fields([{ name: 'transferImageUrl', maxCount: 1 }, { name: 'vehicleImageUrl', maxCount: 1 }])
 
+const vehicleImageUrlsList = Array.from({ length: 12 }, (_, index) => ({
+    name: `vehicleTypes[${index}][vehicleImageUrl]`,
+    maxCount: 1,
+}));
+
+const mfUpload = upload.fields([{ name: 'transferImageUrl', maxCount: 1 }, ...vehicleImageUrlsList]);
+
+// router.post("/", mfUpload,validateTransferRequest, transferController.createTransfer);
 router.post("/", mfUpload, validateTransferRequest,jwtCheck,jwtParse, transferController.createTransfer);
 
 export default router;
