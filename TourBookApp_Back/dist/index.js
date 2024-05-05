@@ -2,9 +2,10 @@ import express from "express";
 import cors from "cors";
 import "dotenv/config";
 import mongoose from "mongoose";
-import userRoutes from "./routes/userRoutes.js";
+import userRoutes from "./routes/UserRoutes.js";
 import { v2 as cloudinary } from "cloudinary";
-import transferRoutes from "./routes/transferRoutes.js";
+import ownerTransferRoutes from "./routes/OwnerTransferRoutes.js";
+import transferRoute from "./routes/TransferRoute.js";
 mongoose.connect(process.env.MONGODB_CONNECTION_STRING)
     .then(() => console.log("connected to database"))
     .catch((error) => console.error("There was a problem to connect database :", error));
@@ -32,5 +33,6 @@ app.get("/helth", async (req, res) => {
     res.json({ message: "hello nodeJs" });
 });
 app.use("/api/v1/user", userRoutes);
-app.use("/api/v1/transfer", transferRoutes);
+app.use("/api/v1/transfer", ownerTransferRoutes);
+app.use("/api/v1/public/transfer", transferRoute);
 //# sourceMappingURL=index.js.map

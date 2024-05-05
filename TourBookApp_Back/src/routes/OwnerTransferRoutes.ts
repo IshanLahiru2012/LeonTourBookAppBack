@@ -1,6 +1,6 @@
 import express from "express";
 import multer from "multer";
-import transferController from "../controllers/transferController.js"
+import transferController from "../controllers/OwnerTransferController.js"
 import {jwtCheck, jwtParse} from "../middleware/auth.js";
 import {validateTransferRequest} from "../middleware/validation.js";
 

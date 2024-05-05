@@ -2,9 +2,10 @@ import express, {Request, Response} from "express";
 import cors from "cors";
 import "dotenv/config";
 import mongoose from "mongoose"
-import userRoutes from "./routes/userRoutes.js";
+import userRoutes from "./routes/UserRoutes.js";
 import {v2 as cloudinary} from "cloudinary";
-import transferRoutes from "./routes/transferRoutes.js";
+import ownerTransferRoutes from "./routes/OwnerTransferRoutes.js";
+import transferRoute from "./routes/TransferRoute.js";
 
 mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string)
     .then( () => console.log("connected to database"))
@@ -35,7 +36,9 @@ const server = app.listen(port,()=> {
 
 app.get("/helth",async (req:Request, res:Response)=>{
     res.json({message:"hello nodeJs"});
+
 });
 
 app.use("/api/v1/user",userRoutes);
-app.use("/api/v1/transfer", transferRoutes);
+app.use("/api/v1/transfer", ownerTransferRoutes);
+app.use("/api/v1/public/transfer", transferRoute)
