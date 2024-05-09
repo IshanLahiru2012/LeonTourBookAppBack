@@ -34,5 +34,5 @@ app.get("/helth", async (req, res) => {
 });
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/transfer", ownerTransferRoutes);
-app.use("/api/v1/public/transfer", transferRoute);
+app.use("/api/v1/transfer/public", transferRoute);
 //# sourceMappingURL=index.js.map

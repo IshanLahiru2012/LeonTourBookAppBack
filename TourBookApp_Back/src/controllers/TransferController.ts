@@ -6,7 +6,7 @@ const searchTransfers = async (req:Request, resp:Response)=>{
         const city = req.params.city;
 
         const searchQuery = req.query.searchQuery as string || "";
-        const selectedColors = req.query.selectedColors as string || "";
+        const selectedCategory = req.query.selectedCategory as string || "";
         const sortOption = req.query.sortOption as string || "lastUpdated";
         const page = parseInt(req.query.page as string) || 1;
 
@@ -24,15 +24,15 @@ const searchTransfers = async (req:Request, resp:Response)=>{
                 }
             })
         }
-        if(selectedColors){
-            const colorsArray = selectedColors.split(",").map((color) => new RegExp(color, "i"));
-            query["color"] = {$all: colorsArray};
+        if(selectedCategory){
+            const vehiclesArray = selectedCategory.split(",").map((vehicle) => new RegExp(vehicle, "i"));
+            query["vehicleTypes.vehicleCategory" ] = {$all: vehiclesArray};
         }
         if (searchQuery){
             const searchRegex = new RegExp(searchQuery, "i");
             query["$or"] =[
                 { transferName: searchRegex},
-                {color : {$in: [searchRegex]}}
+                { "vehicleTypes.vehicleCategory" : {$in: [searchRegex]}   }
             ];
         }
         const pageSize =10;
