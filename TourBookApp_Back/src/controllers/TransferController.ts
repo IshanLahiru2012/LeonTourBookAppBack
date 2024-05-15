@@ -60,6 +60,22 @@ const searchTransfers = async (req:Request, resp:Response)=>{
 
 }
 
+const getTransfer = async  (req:Request, resp: Response)=>{
+    try{
+        const transferId = req.params.transferId;
+        const transfer = await Transfer.findById(transferId);
+        if(!transfer){
+            return resp.status(404).json({message: "Transfer not found"});
+        }
+        resp.json(transfer);
+
+    }catch (error){
+        console.log(error);
+        resp.status(500).json({message:"Something went wrong"});
+    }
+}
+
 export default {
-    searchTransfers
+    searchTransfers,
+    getTransfer
 }

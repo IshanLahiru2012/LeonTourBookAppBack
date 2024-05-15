@@ -34,11 +34,11 @@ const server = app.listen(port,()=> {
         }
     });
 
-app.get("/helth",async (req:Request, res:Response)=>{
+app.get("/helth",async (req:Request, res:Response )=>{
     res.json({message:"hello nodeJs"});
 
 });
 
-app.use("/api/v1/user",userRoutes);
-app.use("/api/v1/transfer", ownerTransferRoutes);
+app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/transfer",ownerTransferRoutes);
 app.use("/api/v1/transfer/public", transferRoute);
