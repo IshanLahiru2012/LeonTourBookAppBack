@@ -6,6 +6,7 @@ import userRoutes from "./routes/UserRoutes.js";
 import {v2 as cloudinary} from "cloudinary";
 import ownerTransferRoutes from "./routes/OwnerTransferRoutes.js";
 import transferRoute from "./routes/TransferRoute.js";
+import bookingRoute from "./routes/BookingRoute.js";
 
 mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string)
     .then( () => console.log("connected to database"))
@@ -42,3 +43,4 @@ app.get("/helth",async (req:Request, res:Response )=>{
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/transfer",ownerTransferRoutes);
 app.use("/api/v1/transfer/public", transferRoute);
+app.use("/api/v1/booking", bookingRoute);

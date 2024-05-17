@@ -6,6 +6,7 @@ import userRoutes from "./routes/UserRoutes.js";
 import { v2 as cloudinary } from "cloudinary";
 import ownerTransferRoutes from "./routes/OwnerTransferRoutes.js";
 import transferRoute from "./routes/TransferRoute.js";
+import bookingRoute from "./routes/BookingRoute.js";
 mongoose.connect(process.env.MONGODB_CONNECTION_STRING)
     .then(() => console.log("connected to database"))
     .catch((error) => console.error("There was a problem to connect database :", error));
@@ -35,4 +36,5 @@ app.get("/helth", async (req, res) => {
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/transfer", ownerTransferRoutes);
 app.use("/api/v1/transfer/public", transferRoute);
+app.use("/api/v1/booking", bookingRoute);
 //# sourceMappingURL=index.js.map
