@@ -18,8 +18,8 @@ const bookingSchema = new mongoose.Schema({
         country: {type: String, required:true},
     },
     vehicleTypeIndex:{type: Number, required:true},
-    status: {type: String, enum: ["placed", "inProgress", "outForDelivery", "delivered"] },
-    createdAt: { type: Date, default: Date.now },
+    status: {type: String, enum: ["placed" , "confirmed" , "picked up" , "on the Tour" , "delivered"] },
+    createdAt: { type: Date, default: Date.now},
 
 });
 
