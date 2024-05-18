@@ -1,6 +1,7 @@
 import Transfer from "../models/transfer.js";
 import cloudinary from "cloudinary";
 import mongoose from "mongoose";
+import Booking from "../models/booking.js";
 const createTransfer = async (req, resp) => {
     try {
         const existingTransfer = await Transfer.findOne({ user: req.userId });
@@ -89,6 +90,42 @@ const updateTransfer = async (req, resp) => {
         resp.status(500).json({ message: "Failed to update transfer" });
     }
 };
+const getTransferBookings = async (req, resp) => {
+    try {
+        const transfer = await Transfer.findOne({ user: req.userId });
+        if (!transfer) {
+            return resp.status(404).json({ message: "Transfer not found" });
+        }
+        const bookings = await Booking.find({ transfer: transfer._id }).populate("transfer").populate("user");
+        resp.json(bookings);
+    }
+    catch (error) {
+        console.log(error);
+        resp.status(500).json({ message: "Something went wrong" });
+    }
+};
+const upadteBookingStatus = async (req, resp) => {
+    try {
+        const { bookingId } = req.params;
+        const { status } = req.body;
+        const booking = await Booking.findById(bookingId);
+        if (!booking) {
+            return resp.status(404).json({ message: "booking not found" });
+        }
+        const transfer = await Transfer.findById(booking.transfer);
+        if (transfer?.user?._id.toString() !== req.userId) {
+            return resp.status(401).send();
+        }
+        booking.status = status;
+        await booking.save();
+        console.log(booking);
+        resp.status(200).json(booking);
+    }
+    catch (error) {
+        console.log(error);
+        resp.status(500).json({ message: "Unable to Update Booking status" });
+    }
+};
 const uploadToCloudinary = async (image) => {
     const base64Image = Buffer.from(image.buffer).toString("base64");
     const dataURI1 = `data:${image.mimetype};base64,${base64Image}`;
@@ -101,6 +138,8 @@ const isImageFile = (file, fieldName) => {
 export default {
     createTransfer,
     getTransfer,
-    updateTransfer
+    updateTransfer,
+    getTransferBookings,
+    upadteBookingStatus
 };
 //# sourceMappingURL=OwnerTransferController.js.map

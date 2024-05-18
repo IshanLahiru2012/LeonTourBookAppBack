@@ -1,6 +1,6 @@
 import express from "express";
 import multer from "multer";
-import transferController from "../controllers/OwnerTransferController.js"
+import OwnerTransferController from "../controllers/OwnerTransferController.js"
 import {jwtCheck, jwtParse} from "../middleware/auth.js";
 import {validateTransferRequest} from "../middleware/validation.js";
 
@@ -21,7 +21,9 @@ const vehicleImageUrlsList = Array.from({ length: 12 }, (_, index) => (
 
 const mfUpload = upload.fields([{ name: 'transferImageUrl', maxCount: 1 }, ...vehicleImageUrlsList]);
 
-router.post("/", mfUpload, validateTransferRequest,jwtCheck,jwtParse, transferController.createTransfer);
-router.get("/",jwtCheck,jwtParse, transferController.getTransfer);
-router.put("/", mfUpload, validateTransferRequest,jwtCheck,jwtParse, transferController.updateTransfer)
+router.post("/", mfUpload, validateTransferRequest,jwtCheck,jwtParse, OwnerTransferController.createTransfer);
+router.get("/",jwtCheck,jwtParse, OwnerTransferController.getTransfer);
+router.put("/", mfUpload, validateTransferRequest,jwtCheck,jwtParse, OwnerTransferController.updateTransfer );
+router.get("/booking",jwtCheck,jwtParse, OwnerTransferController.getTransferBookings);
+router.patch("/booking/:bookingId/status",jwtCheck,jwtParse,OwnerTransferController.upadteBookingStatus);
 export default router;
